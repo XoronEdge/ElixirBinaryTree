@@ -6,9 +6,6 @@ defmodule AddNode do
     traverse_tree(node_array, data)
   end
 
-  defp traverse_tree([], _) do
-  end
-
   defp traverse_tree([head | tail], data) do
     make_new_node(head, head, tail, data)
   end
