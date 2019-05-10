@@ -10,14 +10,6 @@ defmodule AddNode do
     make_new_node(head, tail, data)
   end
 
-  defp join_subtree_back(%TreeNode{side: :left} = subtree, head) do
-    %TreeNode{head | leftNode: subtree}
-  end
-
-  defp join_subtree_back(%TreeNode{side: :right} = subtree, head) do
-    %TreeNode{head | rightNode: subtree}
-  end
-
   defp make_new_node(%TreeNode{leftNode: nil} = head, _, data) do
     %TreeNode{head | leftNode: %TreeNode{data: data, side: :left, parent: head}}
   end
@@ -33,15 +25,23 @@ defmodule AddNode do
   end
 
   defp attach_new_sub_tree_to_parent(
-         %TreeNode{parent: %TreeNode{data: pdata}} = new_sub_tree,
-         %TreeNode{data: hdata} = head
+         %TreeNode{parent: %TreeNode{data: parent_data}} = new_sub_tree,
+         %TreeNode{data: head_data} = head
        )
-       when pdata == hdata do
+       when parent_data == head_data do
     %TreeNode{new_sub_tree | parent: head}
     |> join_subtree_back(head)
   end
 
   defp attach_new_sub_tree_to_parent(new_sub_tree, _) do
     new_sub_tree
+  end
+
+  defp join_subtree_back(%TreeNode{side: :left} = subtree, head) do
+    %TreeNode{head | leftNode: subtree}
+  end
+
+  defp join_subtree_back(%TreeNode{side: :right} = subtree, head) do
+    %TreeNode{head | rightNode: subtree}
   end
 end
